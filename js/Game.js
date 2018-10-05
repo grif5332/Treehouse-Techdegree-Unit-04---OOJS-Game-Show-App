@@ -64,7 +64,7 @@ class Game {
             tries[this.missed].setAttribute('src', 'images/lostHeart.png');
             // alert(this.missed);
             if (this.missed === 4) { //checks if this.missed === 4.  this is the LOSS condition.
-                this.gameOver();  // calls gameOver()
+                this.gameOver('lose');  // calls gameOver()
             };
         };
         this.missed += 1;
@@ -73,7 +73,18 @@ class Game {
     checkForWin() {
         /* loop through the phrase and check for the className 'letter'.
         if ALL the letters have the class, then run gameOver WIN */
+        let winTest = document.getElementsByClassName('letter');
+        let winTestShow = document.getElementsByClassName('letter show');
+        //alert(winTest.length);
+        for (let i = 0; i < winTest.length; i++) {
+            if (winTestShow.length === winTest.length) {
+                this.gameOver('win');
+            };
+        };
         
+        // if (this.missed <=4 && ) {
+
+        // }
     };
     
     startGame() {
@@ -85,24 +96,23 @@ class Game {
         this.missed = 0;
     };
 
-    gameOver() {
-        // ==== Game Lose ====
-        this.loseEffect();
-        let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
-        playAgain.addEventListener('click', () => {
-            game.startGame();
-        });
+    gameOver(endGameCondition) {
 
-        // ====Game Win ====
-        let overlay =  document.getElementById('overlay');
-        overlay.style.visibility = ''; // resets the overlay visability.
-        overlay.style.backgroundColor = '#78CF82'; // Changes the overlay BG-color to a green
-        let winMsg = document.getElementById('game-over-message').innerText = "You guessed the phrase, Good Job!";  //adds win text.
-        let tries = document.querySelectorAll('img');  //tries selector
-        for (let i = 0; i < tries.length; i++) {  // resets the hearts
-            tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
+        if (endGameCondition === 'lose') {
+            this.loseEffect();
+        
+            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
+            playAgain.addEventListener('click', () => {
+                game.startGame();
+            });
+        } else if (endGameCondition === 'win') {
+            this.winEffect();
+
+            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
+            playAgain.addEventListener('click', () => {
+                game.startGame();
+            });
         };
-        document.getElementById('phrase').innerHTML = `<ul></ul>`;
     };
 
     loseEffect() {
@@ -121,7 +131,7 @@ class Game {
         let overlay =  document.getElementById('overlay');
         overlay.style.visibility = ''; // resets the overlay visability.
         overlay.style.backgroundColor = '#78CF82'; // Changes the overlay BG-color to a green
-        let loseMsg = document.getElementById('game-over-message').innerText = "You guessed the phrase! Good Job!";  //adds win text.
+        let winMsg = document.getElementById('game-over-message').innerText = "You guessed the phrase, Good Job!";  //adds win text.
         let tries = document.querySelectorAll('img');  //tries selector
         for (let i = 0; i < tries.length; i++) {  // resets the hearts
             tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart

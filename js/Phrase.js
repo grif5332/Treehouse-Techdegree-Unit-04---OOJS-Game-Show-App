@@ -44,15 +44,10 @@ class Phrase {
 
     showMatchedLetter(letterToCheck) {
         let  checkedLetter = letterToCheck;
-        //alert(checkedLetter);
         let phrase = this.phrase;
-        //alert(phrase.length);
         let selectPhraseLI = document.querySelectorAll('li');
-        //alert(selectPhraseLI);
         for (let i = 0; i < phrase.length; i++) {
-            //alert(i);
             if(phrase[i] === checkedLetter) {
-                //alert(selectPhraseLI[i].classList);
                 selectPhraseLI[i].classList.remove('hide');
                 selectPhraseLI[i].classList.add('show');
             }

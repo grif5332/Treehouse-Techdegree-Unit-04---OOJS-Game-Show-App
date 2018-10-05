@@ -44,25 +44,21 @@ class Game {
         let checked = phraseToCheck.checkLetter(event.target.textContent);
 
         if (checked === true) {
-            //alert('verified');
             phraseToCheck.showMatchedLetter(letterToCheck);
             event.target.classList.add('chosen');
-            //alert(letterToCheck);
             this.checkForWin();
         } else {
-            // alert('Letter not in phrase!');
             event.target.classList.add('wrong');
             this.removeLife();  //calls removeLife()
         };
     };
     
     removeLife() {
-        // alert('life removed! kinda...');
         let tries = document.querySelectorAll('img');
-        // alert(tries.length);
+        
         if (this.missed <= 4) {
             tries[this.missed].setAttribute('src', 'images/lostHeart.png');
-            // alert(this.missed);
+            
             if (this.missed === 4) { //checks if this.missed === 4.  this is the LOSS condition.
                 this.gameOver('lose');  // calls gameOver()
             };
@@ -71,20 +67,14 @@ class Game {
     };
 
     checkForWin() {
-        /* loop through the phrase and check for the className 'letter'.
-        if ALL the letters have the class, then run gameOver WIN */
         let winTest = document.getElementsByClassName('letter');
         let winTestShow = document.getElementsByClassName('letter show');
-        //alert(winTest.length);
+
         for (let i = 0; i < winTest.length; i++) {
             if (winTestShow.length === winTest.length) {
                 this.gameOver('win');
             };
         };
-        
-        // if (this.missed <=4 && ) {
-
-        // }
     };
     
     startGame() {
@@ -97,11 +87,10 @@ class Game {
     };
 
     gameOver(endGameCondition) {
-
         if (endGameCondition === 'lose') {
             this.loseEffect();
         
-            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
+            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?";
             playAgain.addEventListener('click', () => {
                 game.startGame();
             });
@@ -125,6 +114,13 @@ class Game {
             tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
         };
         document.getElementById('phrase').innerHTML = `<ul></ul>`; // resets the phrase <ul>
+        
+        let keyboardBtn = document.getElementsByClassName('key');
+        for(let i = 0; i < keyboardBtn.length; i++) {
+            keyboardBtn[i].classList.remove('wrong');
+            keyboardBtn[i].classList.remove('chosen');
+            keyboardBtn[i].disabled = false;
+        };
     };
 
     winEffect() {
@@ -137,5 +133,12 @@ class Game {
             tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
         };
         document.getElementById('phrase').innerHTML = `<ul></ul>`;
+
+        let keyboardBtn = document.getElementsByClassName('key');
+        for(let i = 0; i < keyboardBtn.length; i++) {
+            keyboardBtn[i].classList.remove('wrong');
+            keyboardBtn[i].classList.remove('chosen');
+            keyboardBtn[i].disabled = false;
+        };
     };
 };

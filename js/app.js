@@ -22,7 +22,6 @@ const resetDisplay = () => {
 
     btn_reset.addEventListener('click', () => {
         overlay.style.visibility = 'hidden';
-        //game.getRandomPhrase();
         game.startGame();
     });
 };
@@ -32,7 +31,6 @@ const markButton = () => {
     let btnClick = document.getElementsByClassName('key');
     for (let i = 0; i < btnClick.length; i++) {
         btnClick[i].addEventListener('click', (event) => {
-            // alert(event.target.textContent);
             game.handleInteraction(event.target.textContent);
         });
     };

@@ -25,9 +25,7 @@ class Phrase {
     };
 
     addPhraseToDisplay() {
-        //alert('add');
         let phraseChars = this.phrase.split(''); // splits the phrase passed from game.getRandomPhrase()
-        //alert(phraseChars);
         let phraseDisplayList = document.querySelector('#phrase ul'); //selects the <ul> of the <div> #phrase
 
         for(let i = 0; i < phraseChars.length; i++) { //loops through the split() phrase. appends children to the <ul>
@@ -40,12 +38,24 @@ class Phrase {
     };
 
     checkLetter(targetLetter) {
-        //alert(this.phrase);
         let phraseToCheck = this.phrase;
-        alert(phraseToCheck.length);
         return phraseToCheck.includes(targetLetter);
     };
 
-    showMatchedLetter() {};
-    
+    showMatchedLetter(letterToCheck) {
+        let  checkedLetter = letterToCheck;
+        //alert(checkedLetter);
+        let phrase = this.phrase;
+        //alert(phrase.length);
+        let selectPhraseLI = document.querySelectorAll('li');
+        //alert(selectPhraseLI);
+        for (let i = 0; i < phrase.length; i++) {
+            //alert(i);
+            if(phrase[i] === checkedLetter) {
+                //alert(selectPhraseLI[i].classList);
+                selectPhraseLI[i].classList.remove('hide');
+                selectPhraseLI[i].classList.add('show');
+            }
+        };
+    };  
 };

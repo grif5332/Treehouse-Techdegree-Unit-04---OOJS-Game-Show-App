@@ -35,31 +35,45 @@ class Game {
         let randomPhraseList = this.phrases; // 
         let randNum = Math.floor(Math.random() * randomPhraseList.length);
         let randChoice = randomPhraseList[randNum];
-        //alert(randChoice.phrase + " char# : " + randChoice.phrase.length)
         return randChoice;
     };
 
     handleInteraction(letterToCheck) {
         event.target.disabled = true;
         let phraseToCheck = this.randomPhrase;
-        phraseToCheck.checkLetter(event.target.textContent);
-        
+        let checked = phraseToCheck.checkLetter(event.target.textContent);
 
-
-
-
-        //alert(letterToCheck);
-        //alert(phraseToCheck.phrase);
+        if (checked === true) {
+            //alert('verified');
+            phraseToCheck.showMatchedLetter(letterToCheck);
+            event.target.classList.add('chosen');
+            //alert(letterToCheck);
+            this.checkForWin();
+        } else {
+            // alert('Letter not in phrase!');
+            event.target.classList.add('wrong');
+            this.removeLife();  //calls removeLife()
+        };
     };
     
     removeLife() {
-        alert('life removed! kinda...')
+        // alert('life removed! kinda...');
+        let tries = document.querySelectorAll('img');
+        // alert(tries.length);
+        if (this.missed <= 4) {
+            tries[this.missed].setAttribute('src', 'images/lostHeart.png');
+            // alert(this.missed);
+            if (this.missed === 4) { //checks if this.missed === 4.  this is the LOSS condition.
+                this.gameOver();  // calls gameOver()
+            };
+        };
+        this.missed += 1;
     };
-    showMatchedLetter() {
-        
-    };
-    checkForWin() {
 
+    checkForWin() {
+        /* loop through the phrase and check for the className 'letter'.
+        if ALL the letters have the class, then run gameOver WIN */
+        
     };
     
     startGame() {
@@ -67,7 +81,51 @@ class Game {
         this.randomPhrase = randomPhrase;
         
         randomPhrase.addPhraseToDisplay(randomPhrase.phrase);
+        
+        this.missed = 0;
     };
 
-    // gameOver() {};
+    gameOver() {
+        // ==== Game Lose ====
+        this.loseEffect();
+        let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
+        playAgain.addEventListener('click', () => {
+            game.startGame();
+        });
+
+        // ====Game Win ====
+        let overlay =  document.getElementById('overlay');
+        overlay.style.visibility = ''; // resets the overlay visability.
+        overlay.style.backgroundColor = '#78CF82'; // Changes the overlay BG-color to a green
+        let winMsg = document.getElementById('game-over-message').innerText = "You guessed the phrase, Good Job!";  //adds win text.
+        let tries = document.querySelectorAll('img');  //tries selector
+        for (let i = 0; i < tries.length; i++) {  // resets the hearts
+            tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
+        };
+        document.getElementById('phrase').innerHTML = `<ul></ul>`;
+    };
+
+    loseEffect() {
+        let overlay =  document.getElementById('overlay'); // resets the overlay visability.; // // overlay selector
+        overlay.style.visibility = ''; // resets the overlay visability.
+        overlay.style.backgroundColor = '#D94545'; // Changes the overlay BG-color to a red
+        let Msg = document.getElementById('game-over-message').innerText = "Sorry, you ran out of lives!";  //adds loss text.
+        let tries = document.querySelectorAll('img');  //tries selector
+        for (let i = 0; i < tries.length; i++) {  // resets the hearts
+            tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
+        };
+        document.getElementById('phrase').innerHTML = `<ul></ul>`; // resets the phrase <ul>
+    };
+
+    winEffect() {
+        let overlay =  document.getElementById('overlay');
+        overlay.style.visibility = ''; // resets the overlay visability.
+        overlay.style.backgroundColor = '#78CF82'; // Changes the overlay BG-color to a green
+        let loseMsg = document.getElementById('game-over-message').innerText = "You guessed the phrase! Good Job!";  //adds win text.
+        let tries = document.querySelectorAll('img');  //tries selector
+        for (let i = 0; i < tries.length; i++) {  // resets the hearts
+            tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
+        };
+        document.getElementById('phrase').innerHTML = `<ul></ul>`;
+    };
 };

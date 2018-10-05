@@ -11,7 +11,7 @@ it disables the button on the onscreen keyboard and calls the
 handleInteraction(); method of the Game class.
 */
 
-const phraseList = ["i love javascript", "world wide web", "internet of things", "hypertext markup language", "teh interwebz","laugh out loud"];
+const phraseList = ["i love javascript", "world wide web", "internet of things", "hypertext markup language", "teh interwebz","laughs out loud"];
 
 // this starts the Game class from Game.js. Puts the phrase list AND 0 misses into the constructor.  For use IN the Game class.
 let game = new Game(0, phraseList); // 0 = 0 missed attempts, phraseList = the array of phrases.
@@ -36,6 +36,5 @@ const markButton = () => {
             game.handleInteraction(event.target.textContent);
         });
     };
-    //calls the handleIneraction() method of the Game class.
 };
 markButton();

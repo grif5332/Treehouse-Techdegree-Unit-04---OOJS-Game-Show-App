@@ -38,18 +38,18 @@ class Phrase {
     };
 
     checkLetter(targetLetter) {
-        let phraseToCheck = this.phrase;
-        return phraseToCheck.includes(targetLetter);
+        let phraseToCheck = this.phrase;  // inserts the current random phrase
+        return phraseToCheck.includes(targetLetter); // checks the target key and checks if the phrase includes it.
     };
 
     showMatchedLetter(letterToCheck) {
-        let  checkedLetter = letterToCheck;
-        let phrase = this.phrase;
-        let selectPhraseLI = document.querySelectorAll('li');
-        for (let i = 0; i < phrase.length; i++) {
-            if(phrase[i] === checkedLetter) {
-                selectPhraseLI[i].classList.remove('hide');
-                selectPhraseLI[i].classList.add('show');
+        let checkedLetter = letterToCheck; //if the letter is in the phrase insert it into the checkedLetter var. 
+        let phrase = this.phrase; 
+        let selectPhraseLI = document.querySelectorAll('li'); //selects all the <li>s of the phrase
+        for (let i = 0; i < phrase.length; i++) { 
+            if(phrase[i] === checkedLetter) { //checks all the letters of the phrase for the target letter
+                selectPhraseLI[i].classList.remove('hide'); // reveals the letter
+                selectPhraseLI[i].classList.add('show');  // shows the letter (makes it blue.)
             }
         };
     };  

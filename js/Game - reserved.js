@@ -32,83 +32,82 @@ class Game {
     };
 
     getRandomPhrase() {
-        let randomPhraseList = this.phrases; // adds the phrases to the variable
-        let randNum = Math.floor(Math.random() * randomPhraseList.length); // makes a random number using the numbers of ites in the array
-        let randChoice = randomPhraseList[randNum]; // chooses a random number from the array
+        let randomPhraseList = this.phrases; // 
+        let randNum = Math.floor(Math.random() * randomPhraseList.length);
+        let randChoice = randomPhraseList[randNum];
         return randChoice;
     };
 
     handleInteraction(letterToCheck) {
-        event.target.disabled = true;  //disables the keyboard button clicked
-        let phraseToCheck = this.randomPhrase;  
-        let checked = phraseToCheck.checkLetter(event.target.textContent);  // calls the checkLetter method ( in Phrase.js) on the target key 
+        event.target.disabled = true;
+        let phraseToCheck = this.randomPhrase;
+        let checked = phraseToCheck.checkLetter(event.target.textContent);
 
-        if (checked === true) {  // if the letter passes the check... 
-            phraseToCheck.showMatchedLetter(letterToCheck);  // calls show the letters in the phrase that match 
-            event.target.classList.add('chosen'); // add the class "chosen" to the target key. Turns it green
-            this.checkForWin(); // checks to see if the key pressed causes a win condition
+        if (checked === true) {
+            phraseToCheck.showMatchedLetter(letterToCheck);
+            event.target.classList.add('chosen');
+            this.checkForWin();
         } else {
-            event.target.classList.add('wrong'); // if the target key isnt in the phrase, add the class wrong.  makes the key disapear. 
+            event.target.classList.add('wrong');
             this.removeLife();  //calls removeLife()
         };
     };
     
     removeLife() {
-        let tries = document.querySelectorAll('img');  // collects ALL the <img> elements.
+        let tries = document.querySelectorAll('img');
         
-        if (this.missed <= 4) { // if the numbers of tries are 4 or less, remove a heart on a try that isnt successful.
-            tries[this.missed].setAttribute('src', 'images/lostHeart.png'); // sets a heart to "lost" 
+        if (this.missed <= 4) {
+            tries[this.missed].setAttribute('src', 'images/lostHeart.png');
             
             if (this.missed === 4) { //checks if this.missed === 4.  this is the LOSS condition.
                 this.gameOver('lose');  // calls gameOver()
             };
         };
-        this.missed += 1;  //adds 1 to the missed score.
+        this.missed += 1;
     };
 
     checkForWin() {
-        let winTest = document.getElementsByClassName('letter');  //collects all the elements with the class "letter".  skipping over the classes with "space"
-        let winTestShow = document.getElementsByClassName('letter show'); // collects all the classes with "letter" AND "show"
+        let winTest = document.getElementsByClassName('letter');
+        let winTestShow = document.getElementsByClassName('letter show');
 
-        for (let i = 0; i < winTest.length; i++) { // loops through ALL the letters
-            if (winTestShow.length === winTest.length) { //compares the amount of letters with how many letter have "show" in them
-                this.gameOver('win'); // if they are the same (implying that ALL the letters have been chosen), go to the gameOver(win) method.
+        for (let i = 0; i < winTest.length; i++) {
+            if (winTestShow.length === winTest.length) {
+                this.gameOver('win');
             };
         };
     };
     
     startGame() {
-        document.querySelector('body').style.backgroundColor = 'white';
-        let randomPhrase = this.getRandomPhrase(); // initiates the random phrase
-        this.randomPhrase = randomPhrase; 
+        let randomPhrase = this.getRandomPhrase();
+        this.randomPhrase = randomPhrase;
         
-        randomPhrase.addPhraseToDisplay(randomPhrase.phrase); // calls the addPhraseToDisplay method from Pharse.js
+        randomPhrase.addPhraseToDisplay(randomPhrase.phrase);
         
-        this.missed = 0; //sets the missed var to 0.
+        this.missed = 0;
     };
 
     gameOver(endGameCondition) {
-        if (endGameCondition === 'lose') { //gets "lose" and runs the lose method below
-            let keyboardBtn = document.getElementsByClassName('key');
-            document.querySelector('body').style.backgroundColor = '#D94545';
-            for(let i = 0; i < keyboardBtn.length; i++) { //loops through the keyboard "keys" and removes classes (resets them)
-                keyboardBtn[i].disabled = true;
-            };
-            window.setTimeout(this.loseEffect, 1000);
-            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //changes button to say "Play Again?"
-        } else if (endGameCondition === 'win') { // gets "win" and runs the win method below.
-            let keyboardBtn = document.getElementsByClassName('key');
-            document.querySelector('body').style.backgroundColor = '#78CF82';
-            for(let i = 0; i < keyboardBtn.length; i++) { //loops through the keyboard "keys" and removes classes (resets them)
-            keyboardBtn[i].disabled = true;
-        };
-            window.setTimeout(this.winEffect, 1000);
+        if (endGameCondition === 'lose') {
+            this.loseEffect();
+        
+
+            
+            let playAgain = document.getElementById('btn__reset').textContent = "Play Again?";
+            playAgain.addEventListener('click', () => {
+                game.startGame();
+            });
+        } else if (endGameCondition === 'win') {
+            this.winEffect();
+
             let playAgain = document.getElementById('btn__reset').textContent = "Play Again?"; //sets the start button text to "try again?"
+            playAgain.addEventListener('click', () => {
+                game.startGame();
+            });
         };
     };
 
     loseEffect() {
-        let overlay =  document.getElementById('overlay'); // overlay selector
+        let overlay =  document.getElementById('overlay'); // resets the overlay visability.; // // overlay selector
         overlay.style.visibility = ''; // resets the overlay visability.
         overlay.style.backgroundColor = '#D94545'; // Changes the overlay BG-color to a red
         let Msg = document.getElementById('game-over-message').innerText = "Sorry, you ran out of lives!";  //adds loss text.
@@ -118,8 +117,8 @@ class Game {
         };
         document.getElementById('phrase').innerHTML = `<ul></ul>`; // resets the phrase <ul>
         
-        let keyboardBtn = document.getElementsByClassName('key');  //key selector
-        for(let i = 0; i < keyboardBtn.length; i++) { //loops through the keyboard "keys" and removes classes (resets them)
+        let keyboardBtn = document.getElementsByClassName('key');
+        for(let i = 0; i < keyboardBtn.length; i++) {
             keyboardBtn[i].classList.remove('wrong');
             keyboardBtn[i].classList.remove('chosen');
             keyboardBtn[i].disabled = false;
@@ -135,10 +134,10 @@ class Game {
         for (let i = 0; i < tries.length; i++) {  // resets the hearts
             tries[i].setAttribute('src', 'images/liveHeart.png');  // changes the hearts PNG from lostHearts to liveHeart
         };
-        document.getElementById('phrase').innerHTML = `<ul></ul>`;  //resets the phrase<ul>
+        document.getElementById('phrase').innerHTML = `<ul></ul>`;
 
-        let keyboardBtn = document.getElementsByClassName('key');// key selector
-        for(let i = 0; i < keyboardBtn.length; i++) { // loops through the keyboard "keys" and removes classes (resets them)
+        let keyboardBtn = document.getElementsByClassName('key');
+        for(let i = 0; i < keyboardBtn.length; i++) {
             keyboardBtn[i].classList.remove('wrong');
             keyboardBtn[i].classList.remove('chosen');
             keyboardBtn[i].disabled = false;
